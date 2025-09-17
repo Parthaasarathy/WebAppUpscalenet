@@ -1,7 +1,189 @@
+/* =========================================================
+   Demo Site — Consolidated Stylesheet (Light Theme)
+   ========================================================= */
+
+/* ========== 1) Reset & Base ========== */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+/* ========== 2) Theme Tokens (Light Theme) ========== */
+:root {
+  --bg: #f8fbff;          /* light background */
+  --bg-2: #eef3ff;        /* subtle panel bg */
+  --surface: #ffffff;     /* surfaces/cards */
+
+  --text: #0e1220;        /* primary text */
+  --muted: #5b647d;       /* muted text */
+
+  --brand: #4f7cff;       /* blue primary */
+  --brand2: #6af0ff;      /* aqua secondary */
+  --accent: #9c6bff;      /* purple accent */
+  --accent-2: #ff7ad9;    /* pink highlight */
+
+  --card: #ffffff;        /* card bg */
+  --ring: #d6def8;        /* light border/focus */
+  --gradient-main: linear-gradient(135deg, var(--brand), var(--accent), var(--accent-2));
+}
+
 body {
-    font-family: Segoe UI, sans-serif;
-    background-color: #ffffff;
-    text-align: center;
-    padding: 50px;
-  }
-  
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+/* ========== 3) Layout Utilities ========== */
+.container { width: min(1120px, 92%); margin-inline: auto; }
+.flex { display: flex; gap: 1rem; }
+.between { justify-content: space-between; }
+.center { align-items: center; }
+.grid-2 { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+
+/* ========== 4) Typography & Links ========== */
+a { color: var(--brand); text-decoration: none; }
+.hero h1 { font-size: clamp(2rem, 4.6vw, 3.8rem); line-height: 1.08; margin: 0 0 1rem; }
+.section h2 { font-size: clamp(1.6rem, 3.2vw, 2.4rem); margin: 0 0 1rem; }
+.section p { color: var(--muted); max-width: 70ch; }
+
+/* ========== 5) Header (Sticky + Glass) ========== */
+.site-header { position: sticky; top: 0; z-index: 10; border-bottom: 1px solid #e3e9fb; }
+.site-header.glass { backdrop-filter: saturate(160%) blur(10px);
+  background: linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,.65));
+  transition: box-shadow .25s ease, padding .25s ease;
+}
+.site-header .container { padding: .6rem 0; }
+.site-header.is-sticky { box-shadow: 0 8px 28px rgba(0,0,0,.10); }
+.brand { font-weight: 800; letter-spacing: .3px; color: var(--text); }
+.nav a { margin-left: 1rem; color: var(--text); opacity: .9; }
+.nav a:hover { opacity: 1; }
+.nav .btn-primary { margin-left: 1.5rem; }
+.nav-toggle { display: none; }
+
+/* ========== 6) Hero + Phone Mockup ========== */
+.hero { padding: 6rem 0 4rem;
+  background:
+    radial-gradient(1200px 600px at 10% -20%, rgba(79,124,255,.25), transparent),
+    radial-gradient(900px 500px at 90% 0%,   rgba(156,107,255,.22), transparent),
+    radial-gradient(800px 500px at 50% 100%, rgba(255,122,217,.16), transparent);
+}
+.hero p { color: var(--muted); margin: 0 0 1.5rem; }
+.hero-media { display: grid; place-items: center; }
+
+/* Phone mock */
+.phone-wrap { position: relative; display: grid; place-items: center; }
+.phone-wrap .pm-shadow { position: absolute; bottom: -10px; width: 68%; height: 18px;
+  background: radial-gradient(closest-side, rgba(0,0,0,.25), transparent);
+  filter: blur(4px); z-index: 0; }
+.phone-mock { position: relative; width: min(320px, 85%); aspect-ratio: 9/19; border-radius: 28px; padding: 10px;
+  background: linear-gradient(135deg, #f0f2ff, #ffffff);
+  border: 1px solid var(--ring);
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,.5), 0 30px 80px rgba(0,0,0,.08);
+  animation: floatY 6s ease-in-out infinite; transform-style: preserve-3d;
+}
+.pm-notch { position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+  width: 40%; height: 16px; background: #ddd; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; }
+.pm-screen { position: relative; width: 100%; height: 100%; border-radius: 20px;
+  background: linear-gradient(180deg, #ffffff 0%, #eef2ff 60%, #ffffff 100%);
+  display: grid; place-items: center; overflow: hidden; }
+.pm-glare { position: absolute; inset: 0; border-radius: 28px; pointer-events: none;
+  background: linear-gradient(60deg, rgba(255,255,255,.5), rgba(255,255,255,0) 40%); mix-blend-mode: screen; }
+.pm-appcard { display: flex; align-items: center; gap: .75rem; background: rgba(0,0,0,.02);
+  border: 1px solid var(--ring); border-radius: 14px; padding: .75rem 1rem; box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+.pm-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--gradient-main); }
+.pm-lines span { display: block; width: 120px; height: 6px; background: #ccd2f0; border-radius: 6px; }
+.pm-lines span:nth-child(2) { width: 88px; margin-top: 6px; }
+.pm-lines span:nth-child(3) { width: 64px; margin-top: 6px; }
+.pm-cta { position: absolute; bottom: 12%; left: 50%; transform: translateX(-50%);
+  padding: .6rem 1rem; border-radius: 999px; border: 1px solid var(--ring);
+  background: rgba(126,240,255,.12); color: var(--text); font-weight: 600; }
+.phone-mock[data-tilt="on"] { transition: transform .12s ease; }
+
+/* ========== 7) Sections & Cards ========== */
+.section { padding: 4rem 0; }
+.section.alt { background: var(--surface); border-top: 1px solid #e6ecfb; border-bottom: 1px solid #e6ecfb; }
+.card-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1rem; margin-top: 1.25rem; }
+.card { background: var(--card); border: 1px solid var(--ring); border-radius: 14px; padding: 1.25rem; box-shadow: 0 8px 24px rgba(0,0,0,.05); }
+.card h3 { margin: 0 0 .4rem; font-size: 1.05rem; }
+.feature-list { display: grid; gap: .6rem; padding-left: 1rem; }
+.feature-list li { color: var(--muted); }
+
+/* ========== 8) Buttons ========== */
+.btn { display: inline-block; padding: .75rem 1rem; border-radius: 10px; border: 1px solid var(--ring); }
+.btn-primary { background: var(--gradient-main); color: #fff; font-weight: 600; }
+.btn-primary:hover { opacity: 0.92; box-shadow: 0 0 0 3px rgba(156,107,255,.25); }
+.btn-link { border: none; color: var(--brand); }
+.btn-outline { background: transparent; border-color: var(--ring); color: var(--text); }
+.btn-outline:hover { border-color: var(--accent-2); box-shadow: 0 0 0 3px rgba(255,122,217,.25); }
+
+/* ========== 9) Feature Cards (icons) ========== */
+.icon-card { transition: transform .18s ease, box-shadow .18s ease; }
+.icon-card:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(0,0,0,.1); }
+.icon-card .icon { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 12px;
+  background: linear-gradient(135deg, rgba(79,124,255,.18), rgba(156,107,255,.18)); color: var(--text);
+  border: 1px solid var(--ring); margin-bottom: .5rem; }
+
+/* ========== 10) Slider ========== */
+.js-slider { margin-top: 1rem; border: 1px solid var(--ring); border-radius: 14px; overflow: hidden; background: var(--card); }
+.js-slider .slides { display: flex; }
+.js-slider .slide { display: grid; place-items: center; min-height: 220px; padding: 2rem; }
+.js-slider .slide:nth-child(odd) { background: #f2f6ff; }
+.testi .slide { min-height: 160px; text-align: center; }
+.testi blockquote { font-size: 1.05rem; line-height: 1.55; margin: 0; }
+.testi cite { display: block; margin-top: .75rem; color: var(--muted); }
+
+/* ========== 11) Accordion ========== */
+.js-accordion { display: grid; gap: 0.75rem; }
+.js-accordion .acc-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+  padding: 1rem; border: 1px solid var(--ring); border-radius: 12px; background: var(--card); }
+.js-accordion .acc-header.is-open { border-color: var(--accent); }
+.js-accordion .acc-content { margin: .5rem 0 1rem; padding: 0 1rem; color: var(--muted); max-height: 0; overflow: hidden; }
+
+/* ========== 12) Pricing + Testimonials ========== */
+.pricing { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1.25rem; }
+.price-card { padding: 1.5rem; }
+.price { font-size: 2rem; font-weight: 800; margin: .25rem 0; }
+.features { display: grid; gap: .4rem; color: var(--muted); }
+
+/* ========== 13) CTA Gradient Bar ========== */
+.cta-bar { background: linear-gradient(135deg, rgba(79,124,255,.28), rgba(156,107,255,.22), rgba(255,122,217,.18));
+  border-top: 1px solid #e3e9fb; border-bottom: 1px solid #e3e9fb; }
+.cta-wrap { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 2rem 0; }
+.cta-text h3 { margin: 0 0 .25rem 0; }
+.cta-text p { margin: 0; color: var(--muted); }
+.cta-actions { display: flex; gap: .75rem; flex-wrap: wrap; }
+
+/* ========== 14) Footer ========== */
+.site-footer { border-top: 1px solid #e3e9fb; padding-top: 2rem; background: var(--bg-2); }
+.site-footer h3, .site-footer h4 { margin: 0 0 .5rem; }
+.legal { margin-top: 1.5rem; text-align: center; color: var(--muted); padding: 1rem 0 2rem; border-top: 1px solid #e6ecfb; }
+
+/* ========== 15) Animations & Effects ========== */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes floatY { 0% { transform: translateY(0); } 50% { transform: translateY(-8px); } 100% { transform: translateY(0); } }
+@keyframes slideX { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: translateX(0); } }
+
+.reveal { opacity: 0; transform: translateY(18px); }
+.reveal.in-view { opacity: 1; transform: none; animation: fadeUp .6s ease forwards; }
+
+/* Parallax helpers */
+.parallax { position: relative; overflow: hidden; }
+.parallax .layer { position: absolute; inset: 0; pointer-events: none; }
+
+/* ========== 16) Responsive Tweaks ========== */
+@media (max-width: 900px) {
+  .grid-2, .grid-3, .card-grid, .pricing { grid-template-columns: 1fr; }
+}
+@media (max-width: 800px) {
+  .nav { display: none; }
+  .nav.open { display: block; }
+  .nav-toggle { display: inline-block; background: transparent; color: var(--text);
+    border: 1px solid var(--ring); padding: .4rem .6rem; border-radius: 8px; }
+  .hero { padding: 4rem 0 3rem; }
+}
+@media (max-width: 480px) {
+  .container { width: min(96%, 560px); }
+  .card { padding: 1rem; }
+  .cta-wrap { padding: 1.5rem 0; }
+}
