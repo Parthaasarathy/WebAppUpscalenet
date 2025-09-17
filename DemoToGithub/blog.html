@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Blog — Upscalenet</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="Demo.css" />
+</head>
+<body>
+  <header class="site-header glass">
+    <div class="container flex between center">
+      <a class="brand" href="index.html">Upscalenet</a>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="about.html">About</a>
+        <a href="blog.html" class="btn btn-outline">Blog</a>
+        <a href="contact.html" class="btn btn-primary">Get Started</a>
+      </nav>
+      <button class="nav-toggle" aria-label="Open menu">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1 class="reveal">Insights & Updates</h1>
+        <p>Notes on AI, engineering, and product development.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container card-grid reveal">
+        <article class="card">
+          <h3>Using LLMs Safely in Production</h3>
+          <p>Guardrails, evals, and observability patterns that keep you safe.</p>
+        </article>
+        <article class="card">
+          <h3>Designing Reliable Automation</h3>
+          <p>From brittle scripts to resilient workflows with retries and alerts.</p>
+        </article>
+        <article class="card">
+          <h3>Making Apps Feel Instant</h3>
+          <p>Performance budgets, prefetching, and smart caching strategies.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="contact">
+    <div class="container grid-3">
+      <div><h3>Upscalenet</h3><p>Shaping the future with cutting-edge AI innovations.</p></div>
+      <div><h4>Contact</h4><p><a href="tel:+916383474107">+91 6383474107</a><br><a href="tel:+917358398769">+91 7358398769</a><br><a href="mailto:info@upscalenet.com">info@upscalenet.com</a></p></div>
+      <div><h4>Links</h4><p><a href="services.html">Services</a> · <a href="about.html">About</a> · <a href="blog.html">Blog</a> · <a href="privacy.html">Privacy Policy</a></p></div>
+    </div>
+    <div class="legal">© <span id="year"></span> All Rights Reserved.</div>
+  </footer>
+  <script src="Demo.js"></script>
+</body>
+</html>
