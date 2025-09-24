@@ -10,9 +10,15 @@
   <link rel="stylesheet" href="Demo.css" />
 </head>
 <body>
-  <header class="site-header">
+  <!-- Reactive background layer (fixed; reacts to scroll & clicks) -->
+  <div class="scroll-bg" aria-hidden="true">
+    <div class="scroll-bg__layer layer-1"></div>
+    <div class="scroll-bg__layer layer-2"></div>
+    <div class="scroll-bg__layer layer-3"></div>
+  </div>
+  <header class="site-header glass">
     <div class="container flex between center">
-      <a class="brand" href="index.html">Upscalenet</a>
+      <a class="brand brand-glow" href="index.html">Upscalenet</a>
       <nav class="nav">
         <a href="index.html">Home</a>
         <a href="services.html">Services</a>
@@ -25,11 +31,11 @@
   </header>
 
   <main>
-    <section id="home" class="hero">
+    <section id="home" class="hero bg-parallax" data-speed="0.25">
       <div class="container grid-2">
         <div>
-          <h1 class="reveal">Unleash Potential,<br>Crafting Tomorrow</h1>
-          <p>
+          <h1 class="reveal zoom-in">Unleash Potential,<br>Crafting Tomorrow</h1>
+          <p class="reveal fade-right">
             Explore a transformative journey with AI services designed for exceptional outcomes.
             Unlock a smarter, more dynamic future filled with possibilities.
           </p>
@@ -39,8 +45,37 @@
           </div>
         </div>
         <div class="hero-media">
-          <div class="ph" data-parallax="0.1">Hero Image Placeholder</div>
+          <div class="phone-wrap reveal zoom-in">
+            <div class="pm-shadow"></div>
+            <div class="phone-mock">
+              <div class="pm-notch"></div>
+              <div class="pm-screen">
+                <div class="pm-appcard">
+                  <div class="pm-icon"></div>
+                  <div class="pm-lines"><span></span><span></span><span></span></div>
+                </div>
+              </div>
+              <div class="pm-glare"></div>
+            </div>
+          </div>
         </div>
+      </div>
+    </section>
+
+    <section id="stats" class="section alt">
+      <div class="container card-grid reveal">
+        <article class="card reveal zoom-in" style="text-align:center">
+          <div style="font-size:2rem;font-weight:800;"><span data-count="2026" data-duration="1200">0</span></div>
+          <div style="color:var(--muted)">Vision</div>
+        </article>
+        <article class="card reveal zoom-in" style="text-align:center">
+          <div style="font-size:2rem;font-weight:800;"><span data-count="40" data-duration="1400">0</span>+</div>
+          <div style="color:var(--muted)">Projects</div>
+        </article>
+        <article class="card reveal zoom-in" style="text-align:center">
+          <div style="font-size:2rem;font-weight:800;"><span data-count="100" data-duration="1500">0</span>+</div>
+          <div style="color:var(--muted)">Partners</div>
+        </article>
       </div>
     </section>
 
@@ -77,7 +112,7 @@
     </section>
     <section id="showcase" class="section">
       <div class="container">
-        <h2>Showcase</h2>
+        <h2 class="reveal">Showcase</h2>
         <p>Here’s a lightweight slider demo using the built-in utility (no external libraries).</p>
         <div class="js-slider">
           <div class="slides">
@@ -161,7 +196,7 @@
 
     <section class="section">
       <div class="container">
-        <h2>Why Choose Upscalenet</h2>
+        <h2 class="reveal">Why Choose Upscalenet</h2>
         <ul class="feature-list">
           <li><strong>Precision‑Driven:</strong> Data‑backed decisions and measurable results.</li>
           <li><strong>Scalability:</strong> Built to grow with your business.</li>
@@ -172,22 +207,22 @@
     </section>
     <section id="faq" class="section alt">
       <div class="container">
-        <h2>Frequently Asked Questions</h2>
+        <h2 class="reveal">Frequently Asked Questions</h2>
         <div class="js-accordion">
           <div>
-            <div class="acc-header">What industries do you serve? <span>+</span></div>
+            <div class="acc-header">What industries do you serve?</div>
             <div class="acc-content" data-open="false">
               <p>We work across e‑commerce, healthcare, logistics, fintech, and media—tailoring solutions to each domain.</p>
             </div>
           </div>
           <div>
-            <div class="acc-header">Can you integrate with our existing systems? <span>+</span></div>
+            <div class="acc-header">Can you integrate with our existing systems?</div>
             <div class="acc-content" data-open="false">
               <p>Yes. We build stable integrations for CRMs, ERPs, data warehouses, and identity providers using secure APIs.</p>
             </div>
           </div>
           <div>
-            <div class="acc-header">Do you provide ongoing support? <span>+</span></div>
+            <div class="acc-header">Do you provide ongoing support?</div>
             <div class="acc-content" data-open="false">
               <p>We offer SLAs, monitoring, and continuous improvement sprints to keep your product fast and reliable.</p>
             </div>
@@ -216,9 +251,10 @@
         <p><a href="services.html">Services</a> · <a href="about.html">About</a> · <a href="blog.html">Blog</a> · <a href="privacy.html">Privacy Policy</a></p>
       </div>
     </div>
-    <div class="legal">© <span id="year"></span> All Rights Reserved.</div>
+    <div class="legal">© <span id="year"></span> Upscalenet. All Rights Reserved.</div>
   </footer>
 
+  <script src="scrollbg.js" defer></script>
   <script src="Demo.js"></script>
 </body>
 </html>
