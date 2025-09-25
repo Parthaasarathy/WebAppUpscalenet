@@ -1,5 +1,3 @@
-
-
 (function(){
   const root = document.documentElement;
   const clamp = (v, min, max) => Math.min(max, Math.max(min, v));

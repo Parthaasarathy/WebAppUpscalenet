@@ -45,16 +45,57 @@ document.addEventListener("DOMContentLoaded", () => {
   const nav = document.querySelector('.nav');
   if (toggle && nav) toggle.addEventListener('click', () => nav.classList.toggle('open'));
 
-  /* ========= Sticky header class on scroll (for glass nav) ========= */
+  /* ========= Sticky header (robust: fixed on scroll with spacer) ========= */
   const header = document.querySelector('.site-header');
-  const stickyThreshold = 24; // px
-  const setSticky = () => {
-    if (!header) return;
-    const isSticky = window.scrollY > stickyThreshold;
-    header.classList.toggle('is-sticky', isSticky);
-  };
-  setSticky();
-  window.addEventListener('scroll', setSticky, { passive: true });
+  if (header) {
+    let locked = false;
+    let spacer = null;
+
+    const lock = () => {
+      if (locked) return;
+      locked = true;
+      header.classList.add('is-sticky');
+      // create spacer to prevent layout shift
+      spacer = document.createElement('div');
+      spacer.className = 'header-spacer';
+      spacer.style.height = header.offsetHeight + 'px';
+      header.parentNode.insertBefore(spacer, header.nextSibling);
+      // fix header in place
+      header.style.position = 'fixed';
+      header.style.top = '0';
+      header.style.left = '0';
+      header.style.right = '0';
+      header.style.zIndex = '100';
+      // ensure width matches container (avoids reflow during scrollbar changes)
+      header.style.width = '100%';
+    };
+
+    const unlock = () => {
+      if (!locked) return;
+      locked = false;
+      header.classList.remove('is-sticky');
+      header.style.position = '';
+      header.style.top = '';
+      header.style.left = '';
+      header.style.right = '';
+      header.style.zIndex = '';
+      header.style.width = '';
+      if (spacer && spacer.parentNode) spacer.parentNode.removeChild(spacer);
+      spacer = null;
+    };
+
+    const onScroll = () => {
+      if (window.scrollY > 1) lock(); else unlock();
+    };
+
+    const onResize = () => {
+      if (spacer) spacer.style.height = header.offsetHeight + 'px';
+    };
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onResize);
+  }
 
   /* ========= Active nav highlight (multi-page + same-page) ========= */
   const currentPath = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
