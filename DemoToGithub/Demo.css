@@ -77,89 +77,101 @@ a:hover { color: #c4b5fd; }
 .section p { color: var(--muted); max-width: 70ch; }
 
 /* ========== 5) Header (Sticky + Glass) ========== */
-.site-header { position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(148,163,184,.12); }
+.site-header { position: sticky; top: 0; z-index: 100; border: 0; background: transparent; box-shadow: none; }
 .site-header.glass {
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
-  background: rgba(255,255,255,0.24);
-  border: 1px solid rgba(255,255,255,0.14);
-  box-shadow: 0 6px 16px rgba(2,6,23,.06);
+  background: rgba(255,255,255,0) !important; /* force full transparency */
+  border: 0 !important;
+  box-shadow: none !important;
   transition: box-shadow .25s ease, padding .25s ease, background .25s ease;
   will-change: background, box-shadow, backdrop-filter;
 }
 
+/* Hard reset: no full-width bar behind header content */
+/* Force absolute transparency for the header and its descendants */
+.site-header, .site-header * {
+  background-color: transparent !important;
+}
+.site-header::before,
+.site-header::after,
+.site-header .container::before,
+.site-header .container::after { content: none !important; }
+
 /* Extra-transparent while sticky scrolling */
 .site-header.glass.is-sticky, .site-header.is-sticky.glass {
-  background: rgba(255,255,255,0.18);
-  border-color: rgba(255,255,255,0.12);
-  box-shadow: 0 10px 28px rgba(2,6,23,.10);
+  background: rgba(255,255,255,0) !important; /* stays transparent when sticky */
+  border-color: transparent !important;
+  box-shadow: none !important;
 }
   .site-header .container {
     padding: .6rem 0 .8rem;
     display: grid;
-    grid-template-columns: 1fr auto 1fr; /* left brand | centered nav | right spacer */
-    grid-template-areas: "brand nav .";
+    grid-template-columns: 1fr auto 1fr; /* keeps nav centered even if CTA is missing */
+    grid-template-areas: "brand nav cta";
     align-items: center;
+    width: 100%;
+    max-width: min(1220px, 96%);
+    justify-items: center;
   }
   .brand {
     grid-area: brand;
-    justify-self: start;
     margin: 0;
     font-weight: 900; letter-spacing: .4px;
-    font-size: clamp(1.6rem, 4.6vw, 2.4rem);
+    font-size: clamp(1.6rem, 4.2vw, 2.2rem);
     line-height: 1.1; color: var(--text);
+    text-align: left;
+    display: inline-flex; align-items: center; gap: .55rem;
   }
   .nav {
     grid-area: nav;
-    display: inline-flex; align-items: center; gap: .5rem;
-    padding: .25rem .35rem;
-    background: rgba(255,255,255,.22); /* glass pill */
-    border: 1px solid rgba(2,6,23,.08);
+    display: inline-flex; align-items: center; gap: .25rem;
+    padding: .35rem .56rem;                    /* consistent outer padding */
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.28);
     border-radius: 999px;
-    backdrop-filter: blur(10px) saturate(160%);
-    -webkit-backdrop-filter: blur(10px) saturate(160%);
-    justify-self: center; /* perfectly centered within container */
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    justify-self: center; justify-content: center; margin: 0 auto;
+    box-shadow: 0 8px 20px rgba(0,0,0,.08);
+    white-space: nowrap;                        /* keep pill on one line */
   }
-.site-header.is-sticky { box-shadow: 0 10px 38px rgba(3,8,20,.45); }
+
+  /* Allow nav .btn-primary (Get Started) to float right as CTA in header */
+  .site-header .container > .brand { justify-self: start; }
+  .site-header .container > .nav { justify-self: center; }
+  .nav-cta-left { grid-area: cta; justify-self: end; }
+  .nav-cta-left .btn-primary {
+    display: inline-flex; align-items: center; justify-content: center;
+    height: 40px; padding: 0 .95rem; border-radius: 999px;
+    background: var(--gradient-main); color:#fff; border-color: transparent;
+    box-shadow: 0 10px 26px rgba(124,58,237,.22);
+  }
+  .nav-cta-left .btn-primary:hover { opacity:.98; box-shadow: 0 12px 30px rgba(124,58,237,.28); }
+  .site-header.is-sticky { box-shadow: none !important; }
 .brand { font-weight: 800; letter-spacing: .3px; color: var(--text); }
   .nav a {
-    padding: .45rem .8rem;
+    position: relative; display: inline-flex; align-items: center; justify-content: center;
+    height: 40px;                                 /* fixed height for uniformity */
+    padding: 0 .90rem;                            /* fixed horizontal padding */
     margin: 0;
-    color: var(--text);
-    opacity: 1;
-    border-radius: var(--radius-pill);
-    transition: background .2s ease, color .2s ease;
+    font-size: 0.95rem; font-weight: 600; line-height: 1; letter-spacing: .1px;
+    color: #111827; border-radius: 999px;
+    background: transparent; border: 0; box-shadow: none;
+    transition: color .18s ease, background .18s ease;  /* no transform/size changes */
+    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
   }
-  /* Active nav state + focus ring */
-  .nav a { position: relative; } /* keep existing padding/radius above */
-  .nav a.active { color: var(--brand); }
-  /* Kill underline */
-  .nav a.active::after{ content:none !important; display:none !important; }
-  /* Underline from center on hover/click */
-  .nav a { position: relative; overflow: visible; }
-  .nav a::after{
-    content:""; position:absolute; left:50%; right:50%; bottom:-6px; height:2px;
-    background: linear-gradient(90deg, var(--brand), var(--brand2)); border-radius:2px; opacity:0;
-    transition: left .24s ease, right .24s ease, opacity .18s ease;
-  }
-  .nav a:hover::after{ left:8px; right:8px; opacity:1; }
-  .nav a.active::after{ left:8px; right:8px; opacity:1; }
-  /* keep link hover background clean inside the pill */
-  .nav a:hover{ background: transparent; color: #111827; }
-  .nav .btn-primary { margin-left: 1.5rem; }
-.nav-toggle { display: none; }
-/* Minimalist round hamburger */
-.nav-toggle.btn-ham{ display:inline-grid; place-items:center; width:36px; height:36px; border-radius:50%;
-  background:#fff; border:1px solid rgba(2,6,23,.12); box-shadow:0 2px 8px rgba(2,6,23,.08); cursor:pointer; }
-.nav-toggle.btn-ham .bars, .nav-toggle.btn-ham .bars::before, .nav-toggle.btn-ham .bars::after{
-  content:""; display:block; width:16px; height:2px; background:#0b0f1a; border-radius:2px; position:relative; }
-.nav-toggle.btn-ham .bars::before{ position:absolute; top:-5px; }
-.nav-toggle.btn-ham .bars::after{ position:absolute; top:5px; }
-@media (min-width:801px){ .nav-toggle.btn-ham{ display:none; } }
+  .nav a:hover  { color: #0b0f1a; background: rgba(2,6,23,0.06); }
+  .nav a.active { color: #0b0f1a; background: rgba(2,6,23,0.10); }
+  /* disable underline */
+  .nav a::after, .nav a.active::after { content: none !important; }
+/* Hamburger always visible and styled in header */
+/* Hide hamburger/menu button everywhere */
+.site-header .nav-toggle, .nav-toggle { display: none !important; }
 
 .nav a.active::before{ content:none !important; display:none !important; }
 /* CTA sits inside the pill without expanding full width */
-.nav .btn-primary { margin: 0 .25rem; border-radius: 999px; }
+.nav .btn-primary{ display: none !important; }
 
 
 /* Keep nav buttons fixed (no transforms) */
@@ -243,17 +255,19 @@ a:hover { color: #c4b5fd; }
 }
 
 /* ===== Brand (Upscalenet) — gradient text, underline removed ===== */
+/* ===== Brand (Upscalenet) — gradient text, underline removed ===== */
 .site-header .brand { position: relative; }
 
-/* Animated gradient sweep across the brand text */
+/* Brand effect: subtle gradient text with slow sweep */
 .site-header .brand,
 .site-header .brand .brand-name {
-  background: linear-gradient(90deg, var(--brand), var(--brand2), var(--accent), var(--brand));
-  background-size: 300% 100%;
+  background: linear-gradient(90deg, #6a00ff 0%, #9d4edd 50%, #4c1d95 100%);
+  background-size: 200% 100%;
   -webkit-background-clip: text;
           background-clip: text;
-  color: transparent !important; /* ensure the gradient shows */
-  animation: brandSweep 6s linear infinite;
+  color: transparent !important;
+  animation: brandSweep 8s linear infinite;
+  text-shadow: 0 2px 8px rgba(106,0,255,.12);
 }
 
 /* Remove running underline under brand */
@@ -261,7 +275,7 @@ a:hover { color: #c4b5fd; }
 
 @keyframes brandSweep { 
   0%   { background-position: 0% 0; }
-  100% { background-position: 300% 0; }
+  100% { background-position: 200% 0; }
 }
 @keyframes underlineRun {
   0%   { background-position: 200% 0; }
@@ -269,6 +283,21 @@ a:hover { color: #c4b5fd; }
 }
 
 /* Optional soft glow pulse (enable by adding 'brand-glow' to the brand element) */
+/* Brand logo image placed before the Upscalenet text */
+
+.brand .brand-logo{ width: 34px; height: 34px; object-fit: contain; display:inline-block; }
+@media (min-width: 900px){ .brand .brand-logo{ width: 38px; height: 38px; } }
+@media (max-width: 480px){ .brand .brand-logo{ width: 30px; height: 30px; } }
+
+/* Explicit brand logo image used in markup (e.g., <img class="logo-img" ...>) */
+.brand img.logo-img{
+  height: 34px; width: auto; display: inline-block;
+  object-fit: contain; margin-right: .55rem; border-radius: 8px;
+  background: transparent; /* do not add a box/border */
+}
+@media (min-width: 900px){ .brand img.logo-img{ height: 38px; } }
+@media (max-width: 480px){ .brand img.logo-img{ height: 30px; } }
+
 .site-header .brand { text-shadow: 0 0 0 rgba(217,70,239,0); }
 .site-header .brand.brand-glow { 
   animation: brandSweep 6s linear infinite, brandGlow 4.5s ease-in-out infinite;
@@ -490,6 +519,19 @@ input:focus, textarea:focus { outline: none; box-shadow: 0 0 0 3px rgba(124,58,2
 /* ========== 14) Footer ========== */
 .site-footer { border-top: 1px solid rgba(148,163,184,.12); padding-top: 2rem; background: var(--bg-2); }
 .site-footer h3, .site-footer h4 { margin: 0 0 .5rem; }
+
+/* Footer brand logo sizing */
+.site-footer .footer-logo{
+  display: block;
+  max-width: 180px;   /* adjust if you want smaller/larger */
+  height: auto;
+  object-fit: contain;
+  margin-bottom: .75rem;
+}
+
+@media (max-width: 600px){
+  .site-footer .footer-logo{ max-width: 140px; }
+}
 .legal { margin-top: 1.5rem; text-align: center; color: var(--muted); padding: 1rem 0 2rem; border-top: 1px solid rgba(148,163,184,.10); }
 
 /* ========== 15) Animations & Effects ========== */
@@ -544,35 +586,55 @@ input:focus, textarea:focus { outline: none; box-shadow: 0 0 0 3px rgba(124,58,2
 
 /* ===== D) Scroll-to-top (modern FAB) ===== */
 .scroll-to-top{
-  position: fixed; right: 18px; bottom: 18px; display: none;
-  padding: .55rem .9rem; border-radius: 999px; font-weight: 700; font-size: .95rem;
-  background: var(--gradient-main); color:#fff; border: none;
-  box-shadow: 0 10px 26px rgba(16,24,40,.18); cursor: pointer; z-index: 1000;
-  transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+  position: fixed; right: 20px !important; left: auto !important; bottom: 20px; display: none;
+  width: 52px; height: 52px; padding: 0; border-radius: 999px;
+  background: rgba(255,255,255,.28); color:#fff; border: 1px solid rgba(255,255,255,.55);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  box-shadow: 0 14px 36px rgba(16,24,40,.22), 0 0 0 1px rgba(255,255,255,.25) inset;
+  cursor: pointer; z-index: 2000;
+  opacity: .95;
+  transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease, background .2s ease, border-color .2s ease;
 }
-.scroll-to-top::before{ content: "↑ Top"; }
-.scroll-to-top:hover{ transform: translateY(-2px); box-shadow: 0 14px 34px rgba(16,24,40,.22); }
+
+.scroll-to-top.is-visible{ display: grid !important; place-items: center; }
+
+/* Centered arrow icon */
+.scroll-to-top::before{
+  content: ""; position: absolute; inset: 0; display: grid; place-items: center; z-index: 1;
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, var(--brand), var(--brand2));
+  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23000" d="M12 7l5 5-1.4 1.4L13 10.8V17h-2v-6.2l-2.6 2.6L7 12z"/></svg>') center/24px 24px no-repeat;
+          mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23000" d="M12 7l5 5-1.4 1.4L13 10.8V17h-2v-6.2l-2.6 2.6L7 12z"/></svg>') center/24px 24px no-repeat;
+}
+
+/* Progress ring around the button (uses --stp from JS as percent) */
+.scroll-to-top::after{
+  content: ""; position:absolute; inset:-3px; border-radius: inherit; pointer-events: none;
+  background: conic-gradient(from -90deg, var(--brand) 0 var(--stp, 0%), rgba(2,6,23,.10) 0 100%);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 0);
+          mask: radial-gradient(farthest-side, transparent calc(100% - 6px), #000 0);
+  opacity: .95;
+}
+
+.scroll-to-top:hover{ transform: translateY(-2px); background: rgba(255,255,255,.32); box-shadow: 0 14px 34px rgba(16,24,40,.22); border-color: rgba(255,255,255,.45); }
 .scroll-to-top:active{ transform: translateY(0); }
 .scroll-to-top:focus-visible{ outline: none; box-shadow: 0 0 0 3px rgba(124,58,237,.30), 0 12px 28px rgba(16,24,40,.18); }
-/* progress ring */
-.scroll-to-top::after{
-  content: ""; position:absolute; inset:-2px; border-radius: inherit;
-  background: conic-gradient(from 0deg, #6a00ff 0 var(--stp, 0%), rgba(2,6,23,.08) 0 100%);
-  -webkit-mask:
-    radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 6px));
-        mask:
-    radial-gradient(farthest-side, transparent calc(100% - 6px), #000 calc(100% - 6px));
+
+/* ---- Hard position override for any back-to-top variants ---- */
+.scroll-to-top,
+.back-to-top,
+.scroll-top,
+.btn-scroll-top,
+#backToTop,
+.to-top {
+  position: fixed !important;
+  inset: auto 20px 20px auto !important; /* top right bottom left */
+  right: 20px !important;
+  left: auto !important;
+  bottom: 20px !important;
+  z-index: 3000 !important;
 }
-.scroll-to-top::before{
-  content: ""; width: 18px; height: 18px; display: block; position: relative; z-index: 1;
-  background: linear-gradient(135deg, var(--brand), var(--brand2));
-  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23000" d="M12 6l6 6h-4v6h-4v-6H6z"/></svg>') center/contain no-repeat;
-        mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23000" d="M12 6l6 6h-4v6h-4v-6H6z"/></svg>') center/contain no-repeat;
-}
-.scroll-to-top:hover{ transform: translateY(-2px); box-shadow: 0 12px 28px rgba(2,6,23,.14); border-color: rgba(2,6,23,.12); }
-.scroll-to-top:active{ transform: translateY(0); }
-.scroll-to-top:focus-visible{ outline: none; 
-  box-shadow: 0 0 0 3px rgba(124,58,237,.30), 0 12px 28px rgba(16,24,40,.18); }
 
 /* Overlay / glass utilities */
 .glass-panel { background: rgba(255,255,255,.72); backdrop-filter: blur(12px) saturate(140%); border: 1px solid rgba(2,6,23,.08); border-radius: var(--radius); }
@@ -646,32 +708,25 @@ input:focus, textarea:focus { outline: none; box-shadow: 0 0 0 3px rgba(124,58,2
 }
 
 /* === Brand cursor that follows the mouse === */
-body.cursor-enabled { cursor: none; }
+body.cursor-enabled { cursor: auto; }
 .cursor, .cursor-dot{
   position: fixed; z-index: 99999; left: 0; top: 0; pointer-events: none;
   transform: translate(-50%, -50%);
 }
 /* outer ring */
 .cursor{
-  width: 28px; height: 28px; border-radius: 50%;
-  border: 1.5px solid rgba(17,24,39,.45);
-  box-shadow: 0 2px 8px rgba(2,6,23,.12);
-  transition: transform .12s ease, opacity .2s ease; opacity: .85;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: rgba(124,58,237,0.85);
+  box-shadow: 0 0 12px rgba(124,58,237,.45);
+  transition: transform .12s ease, opacity .2s ease, background .2s ease, box-shadow .2s ease; opacity: .9;
 }
-/* inner dot with brand gradient */
-.cursor-dot{
-  width: 8px; height: 8px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--brand), var(--brand2));
-  box-shadow: 0 0 10px rgba(124,58,237,.35);
-  transition: transform .12s ease, opacity .2s ease;
-}
+.cursor-dot{ display:none !important; }
 /* scale up on interactive targets */
-a:hover ~ .cursor, button:hover ~ .cursor, .btn:hover ~ .cursor { transform: translate(-50%,-50%) scale(1.25); }
-a:hover ~ .cursor-dot, button:hover ~ .cursor-dot, .btn:hover ~ .cursor-dot { transform: translate(-50%,-50%) scale(1.4); }
+a:hover ~ .cursor, button:hover ~ .cursor, .btn:hover ~ .cursor { transform: translate(-50%,-50%) scale(1.35); background: rgba(124,58,237,.95); box-shadow: 0 0 20px rgba(124,58,237,.55); }
 
 @media (pointer: coarse){
   body.cursor-enabled { cursor: auto; }
-  .cursor, .cursor-dot{ display:none; }
+  .cursor{ display:none; }
 }
 
 /* ========== 16) Responsive Tweaks ========== */
@@ -681,14 +736,14 @@ a:hover ~ .cursor-dot, button:hover ~ .cursor-dot, .btn:hover ~ .cursor-dot { tr
 @media (max-width: 800px) {
   .nav { display: inline-flex; }
   .nav.open { display: inline-flex; }
-  .site-header .container { 
-    grid-template-columns: 1fr; 
-    grid-template-areas: "brand" "nav"; 
-    row-gap: .35rem; 
+  .site-header .container {
+    grid-template-columns: 1fr auto 1fr;
+    grid-template-areas: "brand nav cta";
+    row-gap: .35rem;
   }
   .nav { justify-self: center; }
-  .nav-toggle { display: inline-block; background: transparent; color: var(--text); border: 1px solid var(--ring); padding: .4rem .6rem; border-radius: 8px; }
   .hero { padding: 4rem 0 3rem; }
+  .site-header .container { background: transparent !important; box-shadow: none !important; border: 0 !important; }
 }
 @media (max-width: 480px) {
   .container { width: min(96%, 560px); }

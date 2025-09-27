@@ -358,5 +358,39 @@ document.addEventListener("DOMContentLoaded", () => {
     sections.forEach(s => actIO.observe(s));
   }
 
+  /* ========= Violet Cursor (unified dot across all pages) ========= */
+  (function(){
+    try {
+      let cursor = document.querySelector('.cursor');
+      if (!cursor) {
+        cursor = document.createElement('div');
+        cursor.className = 'cursor';
+        document.body.appendChild(cursor);
+      }
+
+      // Ensure only one dot exists
+      const oldDot = document.querySelector('.cursor-dot');
+      if (oldDot) oldDot.remove();
+
+      document.body.classList.add('cursor-enabled');
+
+      let x = 0, y = 0, tx = 0, ty = 0, raf;
+      const lerp = (a,b,t)=>a+(b-a)*t;
+
+      const move = (e) => { x = e.clientX; y = e.clientY; if (!raf) tick(); };
+      const tick = () => {
+        tx = lerp(tx, x, 0.35);
+        ty = lerp(ty, y, 0.35);
+        cursor.style.left = tx + 'px';
+        cursor.style.top  = ty + 'px';
+        raf = (Math.abs(tx - x) > 0.2 || Math.abs(ty - y) > 0.2) ? requestAnimationFrame(tick) : (raf = null);
+      };
+
+      window.addEventListener('mousemove', move, { passive: true });
+    } catch(err) {
+      console.warn('Cursor init error:', err);
+    }
+  })();
+
   console.log("✨ Enhanced JS loaded with animations");
 });
