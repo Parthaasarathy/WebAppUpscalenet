@@ -105,6 +105,49 @@ document.addEventListener("DOMContentLoaded", () => {
     if (base && base === currentPath) a.classList.add('active');
   });
 
+  /* ========= Animated nav indicator (glassy oval that glides) ========= */
+  (function(){
+    const nav = document.querySelector('.site-header .nav');
+    if (!nav) return;
+
+    // Create the indicator pill once
+    const indicator = document.createElement('span');
+    indicator.className = 'nav-indicator';
+    nav.appendChild(indicator);
+
+    const links = Array.from(nav.querySelectorAll('a'));
+    if (!links.length) return;
+
+    function moveTo(el){
+      if (!el) return;
+      const r  = el.getBoundingClientRect();
+      const nr = nav.getBoundingClientRect();
+      const left = r.left - nr.left + nav.scrollLeft; // position within nav
+      indicator.style.left  = left + 'px';
+      indicator.style.width = r.width + 'px';
+    }
+
+    // Initial position: current active link or first link
+    const initial = nav.querySelector('a.active') || links[0];
+    moveTo(initial);
+    nav.classList.add('is-ready');
+
+    // Hover/Focus preview
+    links.forEach(a => {
+      a.addEventListener('mouseenter', () => moveTo(a));
+      a.addEventListener('focus',      () => moveTo(a));
+      a.addEventListener('mouseleave', () => moveTo(nav.querySelector('a.active') || initial));
+      a.addEventListener('click', () => {
+        links.forEach(x => x.classList.remove('active'));
+        a.classList.add('active');
+        moveTo(a);
+      });
+    });
+
+    // Reposition on resize (and orientation changes)
+    window.addEventListener('resize', () => moveTo(nav.querySelector('a.active') || initial));
+  })();
+
   /* ========= Smooth scroll for internal anchor links (header-aware) ========= */
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', (e) => {
