@@ -124,22 +124,38 @@ a:hover { color: #c4b5fd; }
 .section p { color: var(--muted); max-width: 70ch; }
 
 /* ========== 5) Header (Sticky + Glass) ========== */
-.site-header { position: sticky; top: 0; z-index: 100; border: 0; background: transparent; box-shadow: none; }
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  background: transparent !important;  /* no full-width bar */
+  border: none !important;             /* no cuts/lines */
+  box-shadow: none !important;
+}
+/* Header itself must NOT blur — only the center pill should */
 .site-header.glass {
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  background: rgba(255,255,255,0) !important; /* force full transparency */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: rgba(255,255,255,0) !important; /* keep fully transparent */
   border: 0 !important;
   box-shadow: none !important;
   transition: box-shadow .25s ease, padding .25s ease, background .25s ease;
-  will-change: background, box-shadow, backdrop-filter;
+  will-change: background, box-shadow;
 }
 
-/* Hard reset: no full-width bar behind header content */
-/* Force absolute transparency for the header and its descendants */
-.site-header, .site-header * {
-  background-color: transparent !important;
+
+/* Ensure header wrapper stays clear (but allow the center nav pill) */
+.site-header {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
 }
+.site-header > .container,
+.site-header .brand,
+.site-header .nav-cta-left {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
 .site-header::before,
 .site-header::after,
 .site-header .container::before,
@@ -151,16 +167,19 @@ a:hover { color: #c4b5fd; }
   border-color: transparent !important;
   box-shadow: none !important;
 }
-  .site-header .container {
-    padding: .6rem 0 .8rem;
-    display: grid;
-    grid-template-columns: 1fr auto 1fr; /* keeps nav centered even if CTA is missing */
-    grid-template-areas: "brand nav cta";
-    align-items: center;
-    width: 100%;
-    max-width: min(1220px, 96%);
-    justify-items: center;
-  }
+.site-header .container {
+  padding: .6rem 0 .8rem;                 /* compact; removes bar look */
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; /* brand | nav | cta */
+  grid-template-areas: "brand nav cta";
+  align-items: center;
+  width: 100%;
+  max-width: min(1220px, 96%);
+  justify-items: center;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
   .brand {
     grid-area: brand;
     margin: 0;
@@ -170,19 +189,22 @@ a:hover { color: #c4b5fd; }
     text-align: left;
     display: inline-flex; align-items: center; gap: .55rem;
   }
-  .nav {
-    grid-area: nav;
-    display: inline-flex; align-items: center; gap: .25rem;
-    padding: .35rem .56rem;                    /* consistent outer padding */
-    background: rgba(255,255,255,0.18);
-    border: 1px solid rgba(255,255,255,0.28);
-    border-radius: 999px;
-    backdrop-filter: blur(12px) saturate(180%);
-    -webkit-backdrop-filter: blur(12px) saturate(180%);
-    justify-self: center; justify-content: center; margin: 0 auto;
-    box-shadow: 0 8px 20px rgba(0,0,0,.08);
-    white-space: nowrap;                        /* keep pill on one line */
-  }
+  /* Center “glass pill” nav (independent from brand/CTA) */
+.nav {
+  grid-area: nav;
+  display: inline-flex; align-items: center; gap: .25rem;
+  padding: .35rem .56rem;
+  position: relative;
+  margin: 0 auto;                 /* center */
+  justify-self: center;           /* center in grid */
+  background: rgba(255,255,255,0.18) !important;
+  border: 1px solid rgba(255,255,255,0.28) !important;
+  border-radius: 999px;
+  backdrop-filter: blur(12px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+  box-shadow: 0 8px 20px rgba(0,0,0,.08) !important;
+  white-space: nowrap;
+}
 
   /* Allow nav .btn-primary (Get Started) to float right as CTA in header */
   .site-header .container > .brand { justify-self: start; }
@@ -199,6 +221,7 @@ a:hover { color: #c4b5fd; }
 .brand { font-weight: 800; letter-spacing: .3px; color: var(--text); }
 .nav a {
   position: relative;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -220,25 +243,10 @@ a:hover { color: #c4b5fd; }
 }
 
 /* Hover underline that grows from the center */
-.nav a::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 6px;
-  height: 2px;
-  width: 0;
-  background: linear-gradient(90deg, var(--brand), var(--accent));
-  border-radius: 2px;
-  opacity: 0;
-  transition: width .22s ease, left .22s ease, opacity .18s ease;
-}
-.nav a:hover {
-  color: #0b0f1a;
-}
+.nav a::before,
 .nav a:hover::before {
-  width: 60%;
-  left: 20%;
-  opacity: 1;
+  content: none !important;
+  display: none !important;
 }
 
 /* Active page: glassy oval highlight comes from indicator */
@@ -279,7 +287,7 @@ a:hover { color: #c4b5fd; }
               0 0 8px rgba(255,255,255,.4),
               inset 0 0 6px rgba(255,255,255,.35);
   transition: left .28s ease, width .28s ease, opacity .18s ease;
-  z-index: -1;
+  z-index: 0;
   opacity: 0;
   pointer-events: none;
 }
@@ -375,9 +383,21 @@ a:hover { color: #c4b5fd; }
   opacity:.98; box-shadow: 0 10px 26px rgba(124,58,237,.25);
 }
 
-/* ===== Brand (Upscalenet) — gradient text, underline removed ===== */
-/* ===== Brand (Upscalenet) — gradient text, underline removed ===== */
-.site-header .brand { position: relative; }
+/* ===== Brand (Upscalenet) — no glass plate (fully transparent) ===== */
+.site-header .brand{
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .25rem .65rem;
+  border-radius: 999px;
+  background: transparent !important;
+  border: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  z-index: 102; /* keep above hero on scroll */
+}
 
 /* Brand effect: subtle gradient text with slow sweep */
 .site-header .brand,
@@ -388,7 +408,10 @@ a:hover { color: #c4b5fd; }
           background-clip: text;
   color: transparent !important;
   animation: brandSweep 8s linear infinite;
-  text-shadow: 0 2px 8px rgba(106,0,255,.12);
+  text-shadow: 0 1px 2px rgba(12,16,32,.35),
+               0 0 18px rgba(255,255,255,.55),
+               0 2px 8px rgba(106,0,255,.12);
+  -webkit-text-stroke: .35px rgba(255,255,255,.35);
 }
 
 /* Remove running underline under brand */
@@ -441,13 +464,14 @@ a:hover { color: #c4b5fd; }
 .hero {
   padding: 6rem 0 4rem;
   background:
-  radial-gradient(1200px 600px at 10% -20%, rgba(106,0,255,.16), transparent),
-  radial-gradient(900px 500px at 90% 0%,   rgba(217,70,239,.14), transparent),
-  radial-gradient(800px 500px at 50% 100%, rgba(76,29,149,.14), transparent);
+  radial-gradient(1200px 0px at 10% 0%,  rgba(106,0,255,.16), transparent),
+  radial-gradient(900px 0px  at 0% 0%,  rgba(217,70,239,.14), transparent),
+  radial-gradient(800px 500px  at 50% 100%, rgba(76,29,149,.14), transparent)
 }
 .hero.bg-parallax { background-attachment: scroll; will-change: background-position; }
 .hero p { color: var(--muted); margin: 0 0 1.5rem; }
 .hero-media { display: grid; place-items: center; }
+
 
 /* Phone mock */
 .phone-wrap { position: relative; display: grid; place-items: center; }
@@ -781,6 +805,8 @@ input:focus, textarea:focus { outline: none; box-shadow: 0 0 0 3px rgba(124,58,2
 
 /* ===== B) Scroll Progress Bar ===== */
 .scroll-progress{position:fixed;top:0;left:0;height:3px;background:var(--gradient-main);width:0%;z-index:10000}
+/* Disable the progress line across the top */
+.scroll-progress{ display: none !important; }
 
 /* ===== C) Ripple effect for buttons ===== */
 .ripple{position:absolute;border-radius:50%;transform:scale(0);animation:ripple .6s ease-out;pointer-events:none;background:radial-gradient(circle, rgba(255,255,255,.65) 0%, rgba(255,255,255,.35) 40%, rgba(255,255,255,0) 70%);opacity:.95}
@@ -955,3 +981,71 @@ a:hover ~ .cursor, button:hover ~ .cursor, .btn:hover ~ .cursor { transform: tra
 
 /* ========== 17) Reduced Motion Safeguard ========== */
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+/* =========================================================
+   Header hard-reset + crisp brand text (no full-width bar)
+   ========================================================= */
+
+/* Remove any accidental full‑width background in the header */
+.site-header,
+.site-header > .container {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.site-header::before,
+.site-header::after,
+.site-header > .container::before,
+.site-header > .container::after {
+  content: none !important;
+}
+
+/* Kill any accidental full-width underlays/scrims inside the header */
+.site-header,
+.site-header > .container {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+.site-header .bg,
+.site-header .bar,
+.site-header .row,
+.site-header .underlay,
+.site-header .scrim,
+.site-header .shadow,
+.site-header .navbar,
+.site-header .nav-wrap {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Only allow the three header children; everything else stays transparent */
+.site-header .container > *:not(.brand):not(.nav):not(.nav-cta-left) {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Keep the center nav as a pill; ensure the pill itself renders,
+   but the header row behind it stays fully transparent */
+.site-header .nav {
+  background: rgba(255,255,255,0.18) !important;
+  border: 1px solid rgba(255,255,255,0.28) !important;
+  backdrop-filter: blur(12px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+}
+
+/* --- Brand text clarity (remove “blurred” look) --- */
+/* Crisp brand text — no blur/gradient */
+.site-header .brand,
+.site-header .brand .brand-name { 
+  text-shadow: none !important; 
+  -webkit-text-stroke: 0 !important; 
+}
+.site-header .brand .brand-name { 
+  background: none !important; 
+  color: #0b0f1a !important; 
+}
+.site-header .brand { color: #0b0f1a !important; }
