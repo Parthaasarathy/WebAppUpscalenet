@@ -38,7 +38,7 @@
       z-index: -1;
       pointer-events: none;
       overflow: hidden;
-      background: linear-gradient(180deg, #FAFAFA 0%, #F5F5F5 100%);
+      background: #FFFFFF;
     `;
         document.body.insertBefore(geoContainer, document.body.firstChild);
 
@@ -78,19 +78,23 @@
             { type: 'circle', size: 500, x: -8, y: -10, color: '#E30613', opacity: 0.04, parallax: 12, scrollSpeed: 0.03 },
             { type: 'circle', size: 400, x: 85, y: 55, color: '#000000', opacity: 0.025, parallax: 18, scrollSpeed: 0.04 },
             { type: 'circle', size: 250, x: 45, y: 110, color: '#E30613', opacity: 0.035, parallax: 28, scrollSpeed: 0.07 },
+            { type: 'circle', size: 300, x: 20, y: 30, color: '#000000', opacity: 0.02, parallax: 15, scrollSpeed: 0.035 },
 
             // === Primary lines - bold ===
             { type: 'line', width: 4, length: 350, x: 5, y: 22, rotation: 0, color: '#E30613', opacity: 0.18, parallax: 25, scrollSpeed: 0.05 },
             { type: 'line', width: 3, length: 280, x: 70, y: 65, rotation: 0, color: '#000000', opacity: 0.1, parallax: 20, scrollSpeed: 0.04 },
+            { type: 'line', width: 4, length: 400, x: 90, y: 15, rotation: 90, color: '#E30613', opacity: 0.15, parallax: 30, scrollSpeed: 0.06 },
 
             // === Diagonal lines ===
             { type: 'line', width: 3, length: 300, x: 8, y: 38, rotation: 45, color: '#E30613', opacity: 0.15, parallax: 32, scrollSpeed: 0.06 },
             { type: 'line', width: 2, length: 220, x: 75, y: 18, rotation: -35, color: '#000000', opacity: 0.1, parallax: 26, scrollSpeed: 0.05 },
             { type: 'line', width: 2, length: 180, x: 55, y: 78, rotation: 55, color: '#E30613', opacity: 0.12, parallax: 35, scrollSpeed: 0.07 },
+            { type: 'line', width: 3, length: 250, x: 30, y: 85, rotation: -45, color: '#000000', opacity: 0.08, parallax: 24, scrollSpeed: 0.05 },
 
-            // === Vertical lines ===
-            { type: 'line', width: 2, length: 250, x: 18, y: 35, rotation: 90, color: '#000000', opacity: 0.08, parallax: 22, scrollSpeed: 0.045 },
-            { type: 'line', width: 2, length: 200, x: 88, y: 25, rotation: 90, color: '#E30613', opacity: 0.1, parallax: 18, scrollSpeed: 0.035 },
+            // === Vertical/Horizontal Grid Lines ===
+            { type: 'line', width: 1, length: 1000, x: 15, y: 50, rotation: 90, color: '#000000', opacity: 0.03, parallax: 5, scrollSpeed: 0.02 },
+            { type: 'line', width: 1, length: 800, x: 50, y: 10, rotation: 0, color: '#000000', opacity: 0.03, parallax: 8, scrollSpeed: 0.02 },
+            { type: 'line', width: 1, length: 600, x: 82, y: 60, rotation: 90, color: '#000000', opacity: 0.03, parallax: 6, scrollSpeed: 0.02 },
 
             // === Dots - accent points ===
             { type: 'dot', size: 14, x: 12, y: 55, color: '#E30613', opacity: 0.65, parallax: 50, scrollSpeed: 0.12 },
@@ -100,19 +104,28 @@
             { type: 'dot', size: 16, x: 5, y: 88, color: '#E30613', opacity: 0.6, parallax: 55, scrollSpeed: 0.14 },
             { type: 'dot', size: 10, x: 52, y: 92, color: '#000000', opacity: 0.3, parallax: 48, scrollSpeed: 0.11 },
             { type: 'dot', size: 8, x: 78, y: 95, color: '#E30613', opacity: 0.5, parallax: 50, scrollSpeed: 0.12 },
+            { type: 'dot', size: 12, x: 25, y: 40, color: '#E30613', opacity: 0.5, parallax: 45, scrollSpeed: 0.1 },
+            { type: 'dot', size: 9, x: 92, y: 15, color: '#000000', opacity: 0.35, parallax: 40, scrollSpeed: 0.09 },
 
-            // === Squares - rotating on scroll ===
+            // === Squares - rotate on scroll ===
             { type: 'square', size: 90, x: 78, y: 8, color: '#000000', opacity: 0.06, parallax: 15, rotation: 12, scrollSpeed: 0.04, scrollRotate: true },
             { type: 'square', size: 65, x: 8, y: 72, color: '#E30613', opacity: 0.08, parallax: 20, rotation: -8, scrollSpeed: 0.05, scrollRotate: true },
             { type: 'square', size: 50, x: 45, y: 105, color: '#000000', opacity: 0.05, parallax: 25, rotation: 25, scrollSpeed: 0.06, scrollRotate: true },
+            { type: 'square', size: 120, x: 60, y: 45, color: '#E30613', opacity: 0.04, parallax: 10, rotation: 45, scrollSpeed: 0.03, scrollRotate: true },
 
             // === Crosses - Swiss motif ===
             { type: 'cross', size: 35, x: 22, y: 42, color: '#E30613', opacity: 0.2, parallax: 38, scrollSpeed: 0.08 },
             { type: 'cross', size: 25, x: 65, y: 58, color: '#000000', opacity: 0.12, parallax: 35, scrollSpeed: 0.07 },
+            { type: 'cross', size: 45, x: 12, y: 82, color: '#E30613', opacity: 0.15, parallax: 30, scrollSpeed: 0.09, scrollRotate: true },
+            { type: 'cross', size: 30, x: 92, y: 28, color: '#000000', opacity: 0.1, parallax: 32, scrollSpeed: 0.08 },
 
             // === Rings - hollow circles ===
             { type: 'ring', size: 100, x: 92, y: 48, color: '#E30613', opacity: 0.12, parallax: 22, scrollSpeed: 0.05, scrollRotate: true },
             { type: 'ring', size: 70, x: 15, y: 95, color: '#000000', opacity: 0.08, parallax: 28, scrollSpeed: 0.06, scrollRotate: true },
+
+            // === Triangles (New) ===
+            { type: 'triangle', size: 60, x: 35, y: 25, color: '#E30613', opacity: 0.1, parallax: 25, rotation: 15, scrollSpeed: 0.05, scrollRotate: true },
+            { type: 'triangle', size: 50, x: 85, y: 85, color: '#000000', opacity: 0.08, parallax: 20, rotation: -20, scrollSpeed: 0.04, scrollRotate: true },
         ];
 
         const shapeElements = [];
@@ -163,8 +176,8 @@
         `;
             } else if (shape.type === 'cross') {
                 el.innerHTML = `
-          <div style="position:absolute;width:${shape.size}px;height:3px;background:${shape.color};top:50%;left:0;transform:translateY(-50%);"></div>
-          <div style="position:absolute;width:3px;height:${shape.size}px;background:${shape.color};left:50%;top:0;transform:translateX(-50%);"></div>
+          <div style="position:absolute;width:${shape.size}px;height:4px;background:${shape.color};top:50%;left:0;transform:translateY(-50%);"></div>
+          <div style="position:absolute;width:4px;height:${shape.size}px;background:${shape.color};left:50%;top:0;transform:translateX(-50%);"></div>
         `;
                 styles += `
           width: ${shape.size}px;
@@ -179,11 +192,26 @@
           border: 2px solid ${shape.color};
           background: transparent;
         `;
+            } else if (shape.type === 'triangle') {
+                styles += `
+          width: 0;
+          height: 0;
+          border-left: ${shape.size / 2}px solid transparent;
+          border-right: ${shape.size / 2}px solid transparent;
+          border-bottom: ${shape.size}px solid ${shape.color};
+          background: transparent;
+          transform: rotate(${shape.rotation || 0}deg);
+        `;
             }
 
             el.style.cssText = styles;
             geoContainer.appendChild(el);
-            shapeElements.push({ element: el, ...shape });
+
+            // Calculate pixel position for reactivity
+            const pxX = (shape.x / 100) * window.innerWidth;
+            const pxY = (shape.y / 100) * window.innerHeight;
+
+            shapeElements.push({ element: el, pxX, pxY, ...shape });
         });
 
         console.log('Created', shapeElements.length, 'geometric shapes');
@@ -218,14 +246,24 @@
                 const scrollMove = scrollY * shape.scrollSpeed;
                 const baseRotation = shape.rotation || 0;
 
+                // Proximity effect
+                const dx = mouseX - (shape.pxX + moveX);
+                const dy = mouseY - (shape.pxY + moveY - scrollMove);
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                const scale = dist < 250 ? 1 + (250 - dist) / 1000 : 1; // Slight scale up when near
+
+                let transform = '';
+
                 if (shape.type === 'line') {
-                    shape.element.style.transform = `rotate(${baseRotation}deg) translate(${moveX}px, ${moveY - scrollMove}px)`;
-                } else if ((shape.type === 'square' || shape.type === 'ring') && shape.scrollRotate) {
-                    const scrollRotation = scrollY * 0.025;
-                    shape.element.style.transform = `rotate(${baseRotation + scrollRotation}deg) translate(${moveX}px, ${moveY - scrollMove}px)`;
+                    transform = `rotate(${baseRotation}deg) translate(${moveX}px, ${moveY - scrollMove}px) scale(${scale})`;
+                } else if ((shape.type === 'square' || shape.type === 'ring' || shape.type === 'triangle' || shape.type === 'cross') && shape.scrollRotate) {
+                    const scrollRotation = scrollY * 0.05;
+                    transform = `rotate(${baseRotation + scrollRotation}deg) translate(${moveX}px, ${moveY - scrollMove}px) scale(${scale})`;
                 } else {
-                    shape.element.style.transform = `translate(${moveX}px, ${moveY - scrollMove}px)`;
+                    transform = `translate(${moveX}px, ${moveY - scrollMove}px) scale(${scale})`;
                 }
+
+                shape.element.style.transform = transform;
             });
 
             // Move grid slightly with scroll

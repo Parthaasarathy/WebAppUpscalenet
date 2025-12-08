@@ -44,7 +44,7 @@ body {
   z-index: -1;
   pointer-events: none;
   overflow: hidden;
-  background: #FAFAFA;
+  background: #FFFFFF;
 }
 
 /* Hide old elements */
