@@ -390,6 +390,48 @@
             });
         }
 
+        // ============================================
+        // Scroll-Reactive Header/Brand
+        // ============================================
+        const header = document.querySelector('.site-header');
+        if (header) {
+            let lastScrollY = 0;
+            let scrollTimeout;
+
+            function handleHeaderScroll() {
+                const currentScrollY = window.scrollY;
+
+                // Add scrolled class when scrolled down
+                if (currentScrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+
+                // Detect scroll direction
+                if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                    // Scrolling down
+                    header.classList.remove('scroll-up');
+                    header.classList.add('scroll-down');
+                } else if (currentScrollY < lastScrollY) {
+                    // Scrolling up
+                    header.classList.remove('scroll-down');
+                    header.classList.add('scroll-up');
+                }
+
+                lastScrollY = currentScrollY;
+
+                // Remove direction classes after animation
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    header.classList.remove('scroll-up', 'scroll-down');
+                }, 600);
+            }
+
+            window.addEventListener('scroll', handleHeaderScroll, { passive: true });
+            handleHeaderScroll(); // Initial call
+        }
+
         console.log('🇨🇭 Swiss Design theme fully initialized!');
     }
 })();

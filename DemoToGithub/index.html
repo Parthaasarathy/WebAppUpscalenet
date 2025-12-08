@@ -18,22 +18,22 @@
     <div class="scroll-bg__layer layer-2"></div>
     <div class="scroll-bg__layer layer-3"></div>
   </div>
-  <header class="site-header glass">
-    <div class="container flex between center">
-      <a class="brand brand-glow" href="index.html">
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="index.html">
         <img src="Upscalnet_logo.webp" alt="Upscalenet Logo" class="logo-img">
-        Upscalenet
+        <span class="brand-text">Upscalenet</span>
       </a>
-      <div class="nav-cta-left">
-        <a href="contact.html" class="btn btn-primary">Get Started</a>
-      </div>
       <nav class="nav">
         <a href="index.html" class="active">Home</a>
         <a href="services.html">Services</a>
         <a href="about.html">About Us</a>
         <a href="blog.html">Blog</a>
       </nav>
-      <button class="nav-toggle btn-ham" aria-label="Open menu"><span class="bars"></span></button>
+      <div class="nav-cta">
+        <a href="contact.html" class="btn btn-primary">Get Started</a>
+      </div>
+      <button class="nav-toggle" aria-label="Open menu"><span></span><span></span><span></span></button>
     </div>
   </header>
 
@@ -407,30 +407,32 @@
     </div>
   </footer>
 
+  <!-- Back to Top Button -->
+  <a href="#" class="back-to-top" id="backToTop" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 19V5M5 12l7-7 7 7" />
+    </svg>
+  </a>
+
   <script src="scrollbg.js" defer></script>
   <script src="Demo.js"></script>
   <script>
-    (function () {
-      // brand cursor elements
-      const outer = document.createElement('div');
-      const inner = document.createElement('div');
-      outer.className = 'cursor';
-      inner.className = 'cursor-dot';
-      document.body.appendChild(outer);
-      document.body.appendChild(inner);
-      document.body.classList.add('cursor-enabled');
+    // Back to top button
+    const backToTop = document.getElementById('backToTop');
+    if (backToTop) {
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 500) {
+          backToTop.classList.add('visible');
+        } else {
+          backToTop.classList.remove('visible');
+        }
+      }, { passive: true });
 
-      // follow the mouse
-      const move = (e) => {
-        const x = e.clientX, y = e.clientY;
-        outer.style.left = inner.style.left = x + 'px';
-        outer.style.top = inner.style.top = y + 'px';
-      };
-      window.addEventListener('mousemove', move, { passive: true });
-
-      // keep default cursor visible as fallback
-      document.body.style.cursor = 'default';
-    })();
+      backToTop.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
   </script>
 </body>
 
