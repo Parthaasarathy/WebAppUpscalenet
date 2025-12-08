@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -9,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="Demo.css" />
 </head>
+
 <body>
   <!-- Reactive background layer (fixed; reacts to scroll & clicks) -->
   <div class="scroll-bg" aria-hidden="true">
@@ -39,14 +41,21 @@
     <section id="home" class="hero bg-parallax" data-speed="0.25">
       <div class="container grid-2">
         <div>
-          <h1 class="reveal zoom-in">Unleash Potential,<br>Crafting Tomorrow</h1>
-          <p class="reveal fade-right">
+          <div class="reveal">
+            <span class="badge status-started">
+              AI & IT Development
+            </span>
+          </div>
+          <h1 class="reveal">
+            Unleash<br>Potential
+          </h1>
+          <p class="reveal">
             Explore a transformative journey with AI services designed for exceptional outcomes.
-            Unlock a smarter, more dynamic future filled with possibilities.
+            Unlock a smarter, more dynamic future.
           </p>
-          <div class="cta-row">
-            <a class="btn btn-primary" href="contact.html">Contact Us</a>
-            <a class="btn btn-link" href="services.html">Discover More</a>
+          <div class="cta-row reveal">
+            <a class="btn btn-primary" href="contact.html">Get Started</a>
+            <a class="btn btn-link" href="services.html">Learn More</a>
           </div>
         </div>
         <div class="hero-media">
@@ -94,9 +103,18 @@
           </p>
         </div>
         <div class="card-grid reveal">
-          <article class="card"><h3>Innovation</h3><p>Forward‑thinking, experiment‑driven delivery.</p></article>
-          <article class="card"><h3>User‑Friendly</h3><p>Intuitive experiences that convert.</p></article>
-          <article class="card"><h3>Support</h3><p>Reliable partnership beyond launch.</p></article>
+          <article class="card">
+            <h3>Innovation</h3>
+            <p>Forward‑thinking, experiment‑driven delivery.</p>
+          </article>
+          <article class="card">
+            <h3>User‑Friendly</h3>
+            <p>Intuitive experiences that convert.</p>
+          </article>
+          <article class="card">
+            <h3>Support</h3>
+            <p>Reliable partnership beyond launch.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -106,12 +124,30 @@
         <h2 class="reveal">AI &amp; IT Development</h2>
         <p>Automation, enterprise software, and data‑backed solutions that scale with you.</p>
         <div class="card-grid reveal">
-          <article class="card"><h3>Machine Learning</h3><p>Forecasts, scoring, recommendations.</p></article>
-          <article class="card"><h3>NLP</h3><p>Chatbots, Q&amp;A, summarization.</p></article>
-          <article class="card"><h3>Computer Vision</h3><p>Detection, classification, analytics.</p></article>
-          <article class="card"><h3>Process Automation</h3><p>Docs, back‑office, workflows.</p></article>
-          <article class="card"><h3>LLM Integration</h3><p>Knowledge assistants, smart search.</p></article>
-          <article class="card"><h3>Cloud Backends</h3><p>AWS/GCP/Azure, secure APIs.</p></article>
+          <article class="card">
+            <h3>Machine Learning</h3>
+            <p>Forecasts, scoring, recommendations.</p>
+          </article>
+          <article class="card">
+            <h3>NLP</h3>
+            <p>Chatbots, Q&amp;A, summarization.</p>
+          </article>
+          <article class="card">
+            <h3>Computer Vision</h3>
+            <p>Detection, classification, analytics.</p>
+          </article>
+          <article class="card">
+            <h3>Process Automation</h3>
+            <p>Docs, back‑office, workflows.</p>
+          </article>
+          <article class="card">
+            <h3>LLM Integration</h3>
+            <p>Knowledge assistants, smart search.</p>
+          </article>
+          <article class="card">
+            <h3>Cloud Backends</h3>
+            <p>AWS/GCP/Azure, secure APIs.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -217,19 +253,22 @@
           <div>
             <div class="acc-header">What industries do you serve?</div>
             <div class="acc-content" data-open="false">
-              <p>We work across e‑commerce, healthcare, logistics, fintech, and media—tailoring solutions to each domain.</p>
+              <p>We work across e‑commerce, healthcare, logistics, fintech, and media—tailoring solutions to each
+                domain.</p>
             </div>
           </div>
           <div>
             <div class="acc-header">Can you integrate with our existing systems?</div>
             <div class="acc-content" data-open="false">
-              <p>Yes. We build stable integrations for CRMs, ERPs, data warehouses, and identity providers using secure APIs.</p>
+              <p>Yes. We build stable integrations for CRMs, ERPs, data warehouses, and identity providers using secure
+                APIs.</p>
             </div>
           </div>
           <div>
             <div class="acc-header">Do you provide ongoing support?</div>
             <div class="acc-content" data-open="false">
-              <p>We offer SLAs, monitoring, and continuous improvement sprints to keep your product fast and reliable.</p>
+              <p>We offer SLAs, monitoring, and continuous improvement sprints to keep your product fast and reliable.
+              </p>
             </div>
           </div>
         </div>
@@ -252,7 +291,8 @@
       </div>
       <div>
         <h4>Links</h4>
-        <p><a href="services.html">Services</a> · <a href="about.html">About</a> · <a href="blog.html">Blog</a> · <a href="privacy.html">Privacy Policy</a></p>
+        <p><a href="services.html">Services</a> · <a href="about.html">About</a> · <a href="blog.html">Blog</a> · <a
+            href="privacy.html">Privacy Policy</a></p>
       </div>
     </div>
     <div class="legal">© <span id="year"></span> Upscalenet. All Rights Reserved.</div>
@@ -261,27 +301,28 @@
   <script src="scrollbg.js" defer></script>
   <script src="Demo.js"></script>
   <script>
-  (function () {
-    // brand cursor elements
-    const outer = document.createElement('div');
-    const inner = document.createElement('div');
-    outer.className = 'cursor';
-    inner.className = 'cursor-dot';
-    document.body.appendChild(outer);
-    document.body.appendChild(inner);
-    document.body.classList.add('cursor-enabled');
+    (function () {
+      // brand cursor elements
+      const outer = document.createElement('div');
+      const inner = document.createElement('div');
+      outer.className = 'cursor';
+      inner.className = 'cursor-dot';
+      document.body.appendChild(outer);
+      document.body.appendChild(inner);
+      document.body.classList.add('cursor-enabled');
 
-    // follow the mouse
-    const move = (e) => {
-      const x = e.clientX, y = e.clientY;
-      outer.style.left = inner.style.left = x + 'px';
-      outer.style.top  = inner.style.top  = y + 'px';
-    };
-    window.addEventListener('mousemove', move, { passive: true });
+      // follow the mouse
+      const move = (e) => {
+        const x = e.clientX, y = e.clientY;
+        outer.style.left = inner.style.left = x + 'px';
+        outer.style.top = inner.style.top = y + 'px';
+      };
+      window.addEventListener('mousemove', move, { passive: true });
 
-    // keep default cursor visible as fallback
-    document.body.style.cursor = 'default';
-  })();
+      // keep default cursor visible as fallback
+      document.body.style.cursor = 'default';
+    })();
   </script>
 </body>
+
 </html>
