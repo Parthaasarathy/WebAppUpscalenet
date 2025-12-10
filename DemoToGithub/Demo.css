@@ -17,13 +17,13 @@
 
 html {
   scroll-behavior: smooth;
-  background: #FAFAFA;
+  background: var(--black);
   font-size: 16px;
 }
 
 body {
   background: transparent;
-  color: #000000;
+  color: var(--white);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
   font-size: 1rem;
   line-height: 1.6;
@@ -44,7 +44,7 @@ body {
   z-index: -1;
   pointer-events: none;
   overflow: hidden;
-  background: #FFFFFF;
+  background: var(--black);
 }
 
 /* Hide old elements */
@@ -57,26 +57,29 @@ body {
 :root {
   --white: #FFFFFF;
   --black: #000000;
-  --gray-50: #FAFAFA;
-  --gray-100: #F5F5F5;
-  --gray-200: #EEEEEE;
-  --gray-300: #E0E0E0;
-  --gray-400: #BDBDBD;
-  --gray-500: #9E9E9E;
-  --gray-600: #757575;
-  --gray-700: #616161;
-  --gray-800: #424242;
-  --gray-900: #212121;
+  --gray-50: #111111;
+  --gray-100: #1a1a1a;
+  --gray-200: #222222;
+  --gray-300: #333333;
+  --gray-400: #555555;
+  --gray-500: #888888;
+  --gray-600: #AAAAAA;
+  --gray-700: #CCCCCC;
+  --gray-800: #EEEEEE;
+  --gray-900: #F5F5F5;
 
-  /* Swiss accent - vibrant red */
-  --accent: #E30613;
-  --accent-hover: #C00510;
-  --accent-light: rgba(227, 6, 19, 0.08);
+  /* Lugano Accent Colors */
+  --accent: #6633FF;
+  /* Violet */
+  --accent-hover: #5229CC;
+  --accent-light: rgba(102, 51, 255, 0.15);
+  --highlight: #D7FF00;
+  /* Neon Yellow/Green */
 
-  --text: var(--black);
+  --text: var(--white);
   --text-muted: var(--gray-600);
-  --bg: var(--white);
-  --surface: var(--gray-50);
+  --bg: var(--black);
+  --surface: var(--gray-100);
 
   --radius: 0;
   --radius-sm: 4px;
@@ -229,10 +232,10 @@ a:hover {
   left: 0;
   right: 0;
   z-index: 1000;
-  background: rgba(250, 250, 250, 0.95);
+  background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   transition: all 0.4s var(--transition);
 }
 
@@ -248,7 +251,7 @@ a:hover {
   font-size: 1.375rem;
   font-weight: 800;
   letter-spacing: -0.02em;
-  color: var(--black);
+  color: var(--white);
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -289,7 +292,7 @@ a:hover {
   height: 28px;
   width: auto;
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  filter: brightness(0);
+  filter: brightness(0) invert(1);
 }
 
 /* Scrolled state - brand becomes compact */
@@ -354,7 +357,7 @@ a:hover {
 .nav a {
   font-size: 0.9375rem;
   font-weight: 500;
-  color: var(--gray-700);
+  color: rgba(255, 255, 255, 0.7);
   letter-spacing: 0.01em;
   padding: 0.5rem 0;
   position: relative;
@@ -376,7 +379,7 @@ a:hover {
 
 .nav a:hover,
 .nav a.active {
-  color: var(--black);
+  color: var(--white);
 }
 
 .nav a:hover::after,
@@ -390,8 +393,8 @@ a:hover {
 }
 
 .nav-cta .btn-primary {
-  background: var(--black);
-  color: var(--white);
+  background: var(--white);
+  color: var(--black);
   padding: 0.875rem 1.75rem;
   font-size: 0.8125rem;
   font-weight: 600;
