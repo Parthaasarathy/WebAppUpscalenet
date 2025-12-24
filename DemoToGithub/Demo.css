@@ -368,10 +368,13 @@ a:hover {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 0;
+  width: 100%;
   height: 2px;
   background: var(--accent);
-  transition: width 0.2s ease;
+  transform: scaleX(0);
+  transform-origin: right;
+  /* Flawless exit to right */
+  transition: transform 0.4s var(--transition);
 }
 
 .nav a:hover,
@@ -381,7 +384,9 @@ a:hover {
 
 .nav a:hover::after,
 .nav a.active::after {
-  width: 100%;
+  transform: scaleX(1);
+  transform-origin: left;
+  /* Flawless enter from left */
 }
 
 /* Nav CTA Button */
@@ -653,6 +658,8 @@ a:hover {
   transition: all 0.4s var(--transition);
   position: relative;
   overflow: hidden;
+  border-radius: 0 !important;
+  /* Made rectangular */
 }
 
 .btn::before {
@@ -663,7 +670,9 @@ a:hover {
   width: 100%;
   height: 100%;
   background: var(--black);
-  transform: translateX(-101%);
+  transform: scaleX(0);
+  transform-origin: right;
+  /* Flawless exit to right */
   transition: transform 0.4s var(--transition);
   z-index: -1;
 }
@@ -674,7 +683,9 @@ a:hover {
 }
 
 .btn:hover::before {
-  transform: translateX(0);
+  transform: scaleX(1);
+  transform-origin: left;
+  /* Flawless enter from left */
 }
 
 .btn-primary {
@@ -981,14 +992,37 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 1rem;
-  padding: 1.25rem 2rem;
+  padding: 1rem 3rem;
+  /* Wider padding for rectangle shape */
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.05em;
-  color: var(--black);
-  background: var(--white);
+  color: var(--white);
+  background: var(--accent);
+  /* Default to red as seen in user image */
   text-decoration: none;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.4s var(--transition);
+  border-radius: 0;
+  /* Sharp corners for rectangle */
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  animation: pulse-red 3s infinite;
+  /* Subtle pulse animation */
+}
+
+.footer-cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--black);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s var(--transition);
+  z-index: -1;
 }
 
 .footer-cta svg {
@@ -998,12 +1032,33 @@ a:hover {
 }
 
 .footer-cta:hover {
-  background: var(--accent);
   color: var(--white);
+}
+
+.footer-cta:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 .footer-cta:hover svg {
   transform: translateX(5px);
+}
+
+@keyframes pulse-red {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(227, 6, 19, 0.4);
+  }
+
+  70% {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 15px rgba(227, 6, 19, 0);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(227, 6, 19, 0);
+  }
 }
 
 /* Footer Grid */
@@ -1904,7 +1959,8 @@ textarea::placeholder {
 /* ========== 36) Call to Action Banner ========== */
 .cta-banner {
   background: linear-gradient(135deg, var(--black) 0%, #1a1a1a 100%);
-  padding: var(--spacing-xl);
+  padding: var(--spacing-md) 0;
+  /* Reduced from var(--spacing-xl) */
   position: relative;
   overflow: hidden;
 }
@@ -2036,4 +2092,637 @@ textarea::placeholder {
     width: 45px;
     height: 45px;
   }
+}
+
+/* ========== 22) Partner Marquee ========== */
+.partner-marquee {
+  overflow: hidden;
+  background: var(--white);
+  padding: var(--spacing-xl) 0;
+  position: relative;
+}
+
+.partner-marquee::before,
+.partner-marquee::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 150px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.partner-marquee::before {
+  left: 0;
+  background: linear-gradient(to right, var(--white), transparent);
+}
+
+.partner-marquee::after {
+  right: 0;
+  background: linear-gradient(to left, var(--white), transparent);
+}
+
+.marquee-track {
+  display: flex;
+  width: fit-content;
+  animation: scroll 40s linear infinite;
+}
+
+.partner-marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.partner-logo {
+  flex-shrink: 0;
+  /* Removed fixed width 200px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4rem;
+  /* More generous spacing */
+}
+
+/* Logos are colorful by default in the screenshot */
+.partner-logo svg,
+.partner-logo img {
+  height: 48px;
+  width: auto;
+  min-width: 100px;
+  /* Ensure tiny logos don't shrink too much */
+  max-width: none;
+  /* CRITICAL: Prevent clipping of wide logos */
+  transition: transform 0.3s ease;
+  overflow: visible;
+  /* Ensure vector data isn't cropped */
+}
+
+.partner-logo:hover svg,
+.partner-logo:hover img {
+  transform: scale(1.1);
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* ========== 23) Interactive Stats & Text Marquee ========== */
+.black-stats-section {
+  background: var(--black);
+  color: var(--white);
+  padding: 0 0 var(--spacing-2xl) 0;
+  overflow: hidden;
+}
+
+/* 1. Scrolling Text Strip */
+.scrolling-strip {
+  background: var(--black);
+  padding: var(--spacing-md) 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
+.strip-content {
+  display: inline-block;
+  animation: stripScroll 20s linear infinite;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--white);
+}
+
+.strip-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 3rem;
+  padding-right: 3rem;
+}
+
+.strip-dot {
+  color: var(--accent);
+  /* Red dot */
+  font-size: 1.25rem;
+  line-height: 0;
+}
+
+@keyframes stripScroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* 2. Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-lg);
+  padding-top: var(--spacing-2xl);
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.stat-number {
+  font-size: 4.5rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--white);
+  margin-bottom: var(--spacing-sm);
+}
+
+.stat-label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--gray-500);
+}
+
+@media (max-width: 900px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-xl);
+  }
+
+  .stat-number {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+}
+
+/* Bottom Logo Strip specific styles */
+.bottom-strip {
+  border-bottom: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: var(--spacing-2xl);
+}
+
+.strip-logo-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4rem;
+  padding-right: 4rem;
+}
+
+.strip-logo-img svg,
+.strip-logo-img img {
+  height: 32px;
+  /* Subtle height for strip */
+  width: auto;
+  filter: brightness(0) invert(1);
+  /* Make logos white */
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.strip-logo-img:hover svg,
+.strip-logo-img:hover img {
+  opacity: 1;
+}
+
+/* Tighten the bottom strip to remove excess space */
+.black-stats-section {
+  padding-bottom: 0 !important;
+  /* Remove section padding */
+}
+
+.bottom-strip {
+  margin-top: var(--spacing-2xl);
+  margin-bottom: 0;
+  border-bottom: none;
+  background: var(--black);
+}
+
+/* ========== 24) Project Spotlight (Engagement Booster) ========== */
+.project-spotlight {
+  padding: var(--spacing-2xl) 0;
+  background: var(--white);
+}
+
+.spotlight-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.spotlight-card {
+  position: relative;
+  border-radius: 0;
+  /* Made rectangular */
+  overflow: hidden;
+  background: var(--black);
+  color: var(--white);
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: var(--spacing-lg);
+  transition: transform 0.4s var(--transition), box-shadow 0.4s var(--transition);
+  text-decoration: none;
+}
+
+.spotlight-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Gradient Overlay */
+.spotlight-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0));
+  z-index: 1;
+  transition: opacity 0.4s ease;
+}
+
+.spotlight-card:hover::before {
+  opacity: 0.8;
+}
+
+.spotlight-content {
+  position: relative;
+  z-index: 2;
+}
+
+.spotlight-tag {
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin-bottom: var(--spacing-sm);
+}
+
+.spotlight-card h3 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: var(--spacing-sm);
+  color: var(--white);
+}
+
+.spotlight-card p {
+  font-size: 0.9375rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: var(--spacing-md);
+  opacity: 0.9;
+}
+
+.spotlight-link {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.spotlight-link svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.3s ease;
+}
+
+.spotlight-card:hover .spotlight-link svg {
+  transform: translateX(5px);
+}
+
+/* Optional background images (placeholders for now) */
+.spotlight-card.bg-ai {
+  background: url('https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800') center/cover no-repeat;
+}
+
+.spotlight-card.bg-web {
+  background: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800') center/cover no-repeat;
+}
+
+.spotlight-card.bg-app {
+  background: url('https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80&w=800') center/cover no-repeat;
+}
+
+/* ========== Spacing Regulation & Mobile Improvements ========== */
+
+/* MAJOR spacing reduction - much tighter sections */
+.section {
+  padding: var(--spacing-lg) 0 !important;
+}
+
+/* About section - reduce excessive white space */
+.about-section,
+#about {
+  padding: var(--spacing-md) 0 !important;
+}
+
+/* Hero sections - add top padding to prevent navbar overlap */
+.hero {
+  padding-top: calc(80px + var(--spacing-lg)) !important;
+  /* 80px for navbar height + spacing */
+  padding-bottom: var(--spacing-md) !important;
+}
+
+/* Service hero sections - add top padding to prevent navbar overlap */
+.service-hero {
+  padding-top: calc(80px + var(--spacing-md)) !important;
+  padding-bottom: var(--spacing-md) !important;
+}
+
+/* CTA sections - much tighter */
+.cta-section {
+  padding: var(--spacing-lg) 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* Footer - reduce top padding */
+.site-footer {
+  padding-top: var(--spacing-lg) !important;
+  margin-top: 0 !important;
+}
+
+/* Tighter spacing on mobile */
+@media (max-width: 768px) {
+  .section {
+    padding: var(--spacing-md) 0 !important;
+  }
+
+  .hero {
+    padding: var(--spacing-md) 0 !important;
+  }
+
+  .about-section,
+  #about {
+    padding: var(--spacing-sm) 0 !important;
+  }
+
+  /* Reduce Success Stories card height on mobile */
+  .spotlight-card {
+    height: 320px;
+  }
+
+  /* Better stats grid spacing on mobile */
+  .stats-grid {
+    padding-top: var(--spacing-lg) !important;
+  }
+
+  /* Tighten card grid gaps */
+  .card-grid {
+    gap: var(--spacing-md) !important;
+  }
+
+  /* Footer spacing reduction */
+  .site-footer {
+    padding-top: var(--spacing-md) !important;
+  }
+
+  .footer-top {
+    margin-bottom: var(--spacing-md) !important;
+  }
+
+  .footer-grid {
+    margin-bottom: var(--spacing-md) !important;
+  }
+}
+
+/* Mobile navigation improvements */
+@media (max-width: 768px) {
+  .site-header {
+    padding: var(--spacing-sm) 0;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
+  .hero .lead {
+    font-size: 1rem;
+  }
+
+  /* Ensure spotlight cards are responsive */
+  .spotlight-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  /* Mobile-friendly scrolling text */
+  .strip-content {
+    font-size: 0.75rem;
+  }
+
+  .scrolling-strip {
+    padding: var(--spacing-sm) 0;
+  }
+}
+
+/* ========== 25) Leadership & Team ========== */
+.leadership-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-md);
+}
+
+.leadership-card {
+  padding: var(--spacing-lg);
+  border: 1px solid var(--gray-200);
+  background: var(--white);
+  transition: all 0.4s var(--transition);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-radius: 0;
+}
+
+.leadership-card:hover {
+  border-color: var(--black);
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+}
+
+.leadership-image {
+  width: 120px;
+  height: 120px;
+  background: var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--spacing-md);
+  border-radius: 0;
+  overflow: hidden;
+  /* Added to ensure photo stays inside */
+}
+
+.member-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Use cover to fill the square or contain if you want full image */
+  display: block;
+}
+
+.leadership-initials {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--black);
+  letter-spacing: -0.05em;
+}
+
+.leadership-info h3 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 0.25rem;
+  color: var(--black);
+}
+
+.leadership-role {
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: var(--spacing-md);
+}
+
+.leadership-social {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--black);
+  text-decoration: none;
+  padding-bottom: 4px;
+  border-bottom: 1px solid transparent;
+  transition: all 0.3s var(--transition);
+}
+
+.leadership-social:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.leadership-social svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ========== 26) Testimonials ========== */
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+}
+
+@media (max-width: 600px) {
+  .testimonial-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.testimonial-item {
+  padding: var(--spacing-xl) var(--spacing-lg);
+  background: var(--white);
+  border-left: 2px solid var(--accent);
+  position: relative;
+  border-radius: 0;
+}
+
+.quote-icon {
+  width: 48px;
+  height: 48px;
+  color: var(--gray-100);
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 0;
+  opacity: 0.5;
+}
+
+.testimonial-text {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  font-weight: 500;
+  color: var(--gray-800);
+  margin-bottom: var(--spacing-lg);
+  position: relative;
+  z-index: 1;
+}
+
+.testimonial-author strong {
+  display: block;
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--black);
+  margin-bottom: 0.25rem;
+}
+
+.testimonial-author span {
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gray-500);
+  font-weight: 600;
+}
+
+/* Utilities for sections */
+.bg-light {
+  background: var(--gray-50);
+}
+
+.section-header {
+  margin-bottom: var(--spacing-xl);
+  max-width: 700px;
+}
+
+.section-header h2 {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.04em;
+}
+
+.section-header p {
+  font-size: 1.125rem;
+  color: var(--gray-600);
+  line-height: 1.6;
+}
+
+/* Eliminate extra space before footer CTAs */
+.footer-cta,
+.cta-banner {
+  margin-top: 0 !important;
 }
