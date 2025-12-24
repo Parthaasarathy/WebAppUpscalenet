@@ -12,21 +12,52 @@
 
 <body>
   <header class="site-header">
-    <div class="container">
+    <div class="container header-wrap">
       <a class="brand" href="index.html">
         <img src="Upscalnet_logo.webp" alt="Upscalenet Logo" class="logo-img">
         <span class="brand-text">Upscalenet</span>
       </a>
+
       <nav class="nav">
         <a href="index.html">Home</a>
-        <a href="services.html" class="active">Services</a>
+        <div class="nav-item has-dropdown">
+          <a href="services.html" class="dropdown-trigger active">
+            Services
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </a>
+          <div class="dropdown-menu">
+            <div class="mega-menu-content" style="grid-template-columns: repeat(2, 1fr); max-width: 800px;">
+              <div class="mega-column">
+                <h4>Technical Services</h4>
+                <ul>
+                  <li><a href="service-ai-development.html">AI Development</a></li>
+                  <li><a href="service-web-development.html">Web Development</a></li>
+                  <li><a href="service-app-development.html">App Development</a></li>
+                </ul>
+              </div>
+              <div class="mega-column">
+                <h4>Expert Solutions</h4>
+                <ul>
+                  <li><a href="service-data-science.html">Data Science</a></li>
+                  <li><a href="service-custom-software.html">Custom Software</a></li>
+                  <li><a href="services.html" style="color: var(--accent);">View All Services &rarr;</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
         <a href="about.html">About Us</a>
         <a href="blog.html">Blog</a>
       </nav>
-      <div class="nav-cta">
-        <a href="contact.html" class="btn btn-primary">Get Started</a>
+
+      <div class="header-actions">
+        <div class="nav-cta">
+          <a href="contact.html" class="btn btn-primary">Get Started</a>
+        </div>
+        <button class="nav-toggle" aria-label="Open menu"><span></span><span></span><span></span></button>
       </div>
-      <button class="nav-toggle" aria-label="Open menu"><span></span><span></span><span></span></button>
     </div>
   </header>
 
@@ -131,7 +162,8 @@
             <li><a href="privacy.html">Cookie Policy</a></li>
           </ul>
         </div>
-      </div>      <div class="footer-social">
+      </div>
+      <div class="footer-social">
         <a href="https://linkedin.com" target="_blank" rel="noopener" class="social-link">
           <span>LinkedIn</span>
           <svg viewBox="0 0 24 24" fill="currentColor">

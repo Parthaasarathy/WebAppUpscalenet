@@ -40,10 +40,38 @@ document.addEventListener("DOMContentLoaded", () => {
   setProgress();
   window.addEventListener('scroll', setProgress, { passive: true });
 
-  /* ========= Mobile nav toggle ========= */
+  /* ========= Mobile nav toggle & Dropdown ========= */
   const toggle = document.querySelector('.nav-toggle');
   const nav = document.querySelector('.nav');
-  if (toggle && nav) toggle.addEventListener('click', () => nav.classList.toggle('open'));
+  const dropdownTrigger = document.querySelector('.dropdown-trigger');
+  const navItemDropdown = document.querySelector('.nav-item.has-dropdown');
+
+  if (toggle && nav) {
+    toggle.addEventListener('click', () => {
+      nav.classList.toggle('open');
+      document.body.classList.toggle('menu-open');
+    });
+  }
+
+  // Handle dropdown on mobile via click
+  if (dropdownTrigger && navItemDropdown) {
+    dropdownTrigger.addEventListener('click', (e) => {
+      if (window.innerWidth <= 1024) {
+        e.preventDefault();
+        navItemDropdown.classList.toggle('active-mobile');
+      }
+    });
+  }
+
+  // Close nav on link click (excluding dropdown trigger)
+  document.querySelectorAll('.nav a:not(.dropdown-trigger)').forEach(link => {
+    link.addEventListener('click', () => {
+      if (nav && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        document.body.classList.remove('menu-open');
+      }
+    });
+  });
 
   /* ========= Sticky header (robust: fixed on scroll with spacer) ========= */
   const header = document.querySelector('.site-header');
@@ -106,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ========= Animated nav indicator (glassy oval that glides) ========= */
-  (function(){
+  (function () {
     const nav = document.querySelector('.site-header .nav');
     if (!nav) return;
 
@@ -118,12 +146,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const links = Array.from(nav.querySelectorAll('a'));
     if (!links.length) return;
 
-    function moveTo(el){
+    function moveTo(el) {
       if (!el) return;
-      const r  = el.getBoundingClientRect();
+      const r = el.getBoundingClientRect();
       const nr = nav.getBoundingClientRect();
       const left = r.left - nr.left + nav.scrollLeft; // position within nav
-      indicator.style.left  = left + 'px';
+      indicator.style.left = left + 'px';
       indicator.style.width = r.width + 'px';
     }
 
@@ -135,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Hover/Focus preview
     links.forEach(a => {
       a.addEventListener('mouseenter', () => moveTo(a));
-      a.addEventListener('focus',      () => moveTo(a));
+      a.addEventListener('focus', () => moveTo(a));
       a.addEventListener('mouseleave', () => moveTo(nav.querySelector('a.active') || initial));
       a.addEventListener('click', () => {
         links.forEach(x => x.classList.remove('active'));
@@ -223,17 +251,17 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ========= Reveal-on-scroll via IntersectionObserver ========= */
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
         e.target.classList.add('in-view');
         io.unobserve(e.target);
       }
     })
-  },{root:null,rootMargin:'0px 0px -10% 0px',threshold:0.15});
+  }, { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
 
   // Auto-assign tasteful variants + stagger
-  const variants = ['fade-left','fade-right','zoom-in','zoom-out','flip-up'];
+  const variants = ['fade-left', 'fade-right', 'zoom-in', 'zoom-out', 'flip-up'];
   const reveals = document.querySelectorAll('.reveal');
   reveals.forEach((el, i) => {
     const hasVariant = variants.some(v => el.classList.contains(v));
@@ -248,13 +276,13 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ========= Simple parallax support (data-parallax="speed") ========= */
   const px = () => {
     document.querySelectorAll('[data-parallax]')
-      .forEach(el=>{
-        const s = parseFloat(el.getAttribute('data-parallax'))||0.15;
+      .forEach(el => {
+        const s = parseFloat(el.getAttribute('data-parallax')) || 0.15;
         const y = window.scrollY * s;
         el.style.transform = `translateY(${y}px)`;
       });
   };
-  window.addEventListener('scroll', px, {passive:true});
+  window.addEventListener('scroll', px, { passive: true });
   px();
 
   /* ========= Subtle tilt/hover for phone mockup ========= */
@@ -265,24 +293,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const handleMove = (e) => {
       const rect = wrap.getBoundingClientRect();
-      const cx = rect.left + rect.width/2;
-      const cy = rect.top + rect.height/2;
-      const dx = (e.clientX - cx) / (rect.width/2);
-      const dy = (e.clientY - cy) / (rect.height/2);
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = (e.clientX - cx) / (rect.width / 2);
+      const dy = (e.clientY - cy) / (rect.height / 2);
       const rx = Math.max(-1, Math.min(1, -dy)) * maxTilt;
       const ry = Math.max(-1, Math.min(1, dx)) * maxTilt;
       mock.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
-      mock.setAttribute('data-tilt','on');
+      mock.setAttribute('data-tilt', 'on');
     };
 
     const reset = () => {
       mock.style.transform = '';
-      mock.setAttribute('data-tilt','off');
+      mock.setAttribute('data-tilt', 'off');
     };
 
     wrap.addEventListener('mousemove', handleMove);
     wrap.addEventListener('mouseleave', reset);
-    wrap.addEventListener('touchmove', (e)=>{ if (!e.touches[0]) return; handleMove(e.touches[0]); }, {passive:true});
+    wrap.addEventListener('touchmove', (e) => { if (!e.touches[0]) return; handleMove(e.touches[0]); }, { passive: true });
     wrap.addEventListener('touchend', reset);
 
     // Subtle breathing scale while visible
@@ -306,7 +334,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const from = parseFloat(el.textContent) || 0;
       const tick = (t) => {
         const p = Math.min(1, (t - start) / duration);
-        const eased = 0.5 - Math.cos(Math.PI * p)/2; // easeInOut
+        const eased = 0.5 - Math.cos(Math.PI * p) / 2; // easeInOut
         const val = Math.floor(from + (target - from) * eased);
         el.textContent = val.toLocaleString();
         if (p < 1) requestAnimationFrame(tick);
@@ -323,8 +351,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const strength = 12; // px
     const move = (e) => {
       const r = btn.getBoundingClientRect();
-      const dx = (e.clientX - (r.left + r.width/2)) / (r.width/2);
-      const dy = (e.clientY - (r.top + r.height/2)) / (r.height/2);
+      const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+      const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
       btn.style.transform = `translate(${dx * strength}px, ${dy * strength}px)`;
     };
     const reset = () => { btn.style.transform = ''; };
@@ -344,8 +372,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const d = Math.max(btn.clientWidth, btn.clientHeight);
       circle.style.width = circle.style.height = d + 'px';
       const rect = btn.getBoundingClientRect();
-      circle.style.left = e.clientX - rect.left - d/2 + 'px';
-      circle.style.top = e.clientY - rect.top - d/2 + 'px';
+      circle.style.left = e.clientX - rect.left - d / 2 + 'px';
+      circle.style.top = e.clientY - rect.top - d / 2 + 'px';
       btn.appendChild(circle);
       setTimeout(() => circle.remove(), 600);
     });
@@ -370,7 +398,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll('.tag[data-filter]').forEach(btn => {
       btn.addEventListener('click', () => {
         const f = btn.getAttribute('data-filter');
-        document.querySelectorAll('.tag[data-filter]').forEach(b=>b.classList.remove('active'));
+        document.querySelectorAll('.tag[data-filter]').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         cards.forEach(c => {
           const tags = (c.getAttribute('data-tags') || '').split(/\s+/);
@@ -402,7 +430,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ========= Violet Cursor (unified dot across all pages) ========= */
-  (function(){
+  (function () {
     try {
       let cursor = document.querySelector('.cursor');
       if (!cursor) {
@@ -418,19 +446,19 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.classList.add('cursor-enabled');
 
       let x = 0, y = 0, tx = 0, ty = 0, raf;
-      const lerp = (a,b,t)=>a+(b-a)*t;
+      const lerp = (a, b, t) => a + (b - a) * t;
 
       const move = (e) => { x = e.clientX; y = e.clientY; if (!raf) tick(); };
       const tick = () => {
         tx = lerp(tx, x, 0.35);
         ty = lerp(ty, y, 0.35);
         cursor.style.left = tx + 'px';
-        cursor.style.top  = ty + 'px';
+        cursor.style.top = ty + 'px';
         raf = (Math.abs(tx - x) > 0.2 || Math.abs(ty - y) > 0.2) ? requestAnimationFrame(tick) : (raf = null);
       };
 
       window.addEventListener('mousemove', move, { passive: true });
-    } catch(err) {
+    } catch (err) {
       console.warn('Cursor init error:', err);
     }
   })();
