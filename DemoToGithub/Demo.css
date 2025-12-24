@@ -223,7 +223,8 @@ a:hover {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 3000;
+  z-index: 9999;
+  /* Topmost */
   background: rgba(250, 250, 250, 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -1676,9 +1677,10 @@ textarea::placeholder {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(4px);
-    z-index: 1040;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    z-index: 9998;
+    /* Just below header */
     animation: fadeIn 0.3s ease;
   }
 
@@ -1767,8 +1769,16 @@ textarea::placeholder {
     border: none;
   }
 
-  .nav-toggle {
-    display: flex;
+  .nav-toggle.open span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+  }
+
+  .nav-toggle.open span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav-toggle.open span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
   }
 
   .hero {

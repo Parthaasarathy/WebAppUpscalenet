@@ -49,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (toggle && nav) {
     toggle.addEventListener('click', () => {
       nav.classList.toggle('open');
+      toggle.classList.toggle('open');
       document.body.classList.toggle('menu-open');
     });
   }
